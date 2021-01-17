@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GridFilters.Extensions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -33,26 +34,36 @@ namespace GridFilters
 
             foreach (var (fieldName, filterModel) in options.FilterModels)
             {
-                string condition, tmp;
+                ParseFilterValues(filterModel);
+
+                string condition;
                 var conditionValues = new List<object>();
 
-                if (!string.IsNullOrWhiteSpace(filterModel.LogicOperator))
+                if (filterModel.LogicOperator.IsNullOrEmpty())
                 {
-                    tmp = GetConditionFromModel(fieldName, filterModel.Condition1, conditionValues);
-                    condition = tmp;
-
-                    tmp = GetConditionFromModel(fieldName, filterModel.Condition2, conditionValues);
-                    condition = $"{condition} {filterModel.LogicOperator} {tmp}";
+                    condition = GetConditionFromModel(fieldName, filterModel, conditionValues);
                 }
                 else
                 {
-                    condition = GetConditionFromModel(fieldName, filterModel, conditionValues);
+                    var leftSide = GetConditionFromModel(fieldName, filterModel.Condition1, conditionValues);
+                    var rightSide = GetConditionFromModel(fieldName, filterModel.Condition2, conditionValues);
+
+                    condition = $"{leftSide} {filterModel.LogicOperator} {rightSide}";
                 }
 
                 query = conditionValues.Count == 0 ? query.Where(condition) : query.Where(condition, conditionValues.ToArray());
             }
 
             return query;
+        }
+
+        private void ParseFilterValues(FilterModel filterModel)
+        {
+            if (filterModel.FieldType == "date")
+            {
+                filterModel.Filter = filterModel.Filter.ToDateTime();
+                filterModel.FilterTo = filterModel.FilterTo.ToDateTime();
+            }
         }
 
         private IQueryable<T> ApplySort<T>(IQueryable<T> query, FilterOptions options)
@@ -105,8 +116,8 @@ namespace GridFilters
                             values.Add(model.Filter);
                             break;
                     }
-
                     break;
+
                 case "number":
                     switch (model.Type)
                     {
@@ -132,17 +143,17 @@ namespace GridFilters
                             modelResult = $"({colName} >= {model.Filter} AND {colName} <= {model.FilterTo})";
                             break;
                     }
-
                     break;
+
                 case "date":
-                    values.Add(model.DateFrom);
+                    values.Add(model.Filter);
 
                     switch (model.Type)
                     {
                         case "equals":
                             modelResult = $"{colName} = @{values.Count - 1}";
                             break;
-                        case "notEqual":
+                        case "notEquals":
                             modelResult = $"{colName} <> @{values.Count - 1}";
                             break;
                         case "lessThan":
@@ -158,13 +169,13 @@ namespace GridFilters
                             modelResult = $"{colName} >= @{values.Count - 1}";
                             break;
                         case "inRange":
-                            values.Add(model.DateTo);
+                            values.Add(model.FilterTo);
                             modelResult =
                                 $"({colName} >= @{values.Count - 2} AND {colName} <= @{values.Count - 1})";
                             break;
                     }
-
                     break;
+
             }
 
             return modelResult;
