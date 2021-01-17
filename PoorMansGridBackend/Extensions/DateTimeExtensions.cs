@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GridFilters.Extensions
+namespace PoorMansGridBackend.Extensions
 {
     internal static class DateTimeExtensions
     {

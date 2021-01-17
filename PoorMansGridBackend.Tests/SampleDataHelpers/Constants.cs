@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GridFilters.Tests.SampleDataHelpers
+namespace PoorMansGridBackend.Tests.SampleDataHelpers
 {
     public class Constants
     {

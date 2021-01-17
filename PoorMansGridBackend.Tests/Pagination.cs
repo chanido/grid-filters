@@ -1,8 +1,8 @@
-using GridFilters.Tests.SampleDataHelpers;
+using PoorMansGridBackend.Tests.SampleDataHelpers;
 using NUnit.Framework;
 using System.Linq;
 
-namespace GridFilters.Tests
+namespace PoorMansGridBackend.Tests
 {
     public class Pagination
     {

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoorMansGridBackend", "PoorMansGridBackend\PoorMansGridBackend.csproj", "{76D7A8AB-63BC-442C-A318-D4CB84447E7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoorMansGridBackend.Tests", "PoorMansGridBackend.Tests\PoorMansGridBackend.Tests.csproj", "{182F6863-D7FA-4035-AD92-9B9C592F78D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76D7A8AB-63BC-442C-A318-D4CB84447E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76D7A8AB-63BC-442C-A318-D4CB84447E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76D7A8AB-63BC-442C-A318-D4CB84447E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76D7A8AB-63BC-442C-A318-D4CB84447E7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{182F6863-D7FA-4035-AD92-9B9C592F78D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{182F6863-D7FA-4035-AD92-9B9C592F78D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{182F6863-D7FA-4035-AD92-9B9C592F78D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{182F6863-D7FA-4035-AD92-9B9C592F78D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3719B1A-D227-4853-AC8E-7E10627BACA2}
+	EndGlobalSection
+EndGlobal

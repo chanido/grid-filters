@@ -1,9 +1,9 @@
-﻿using GridFilters.Extensions;
+﻿using PoorMansGridBackend.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
-namespace GridFilters
+namespace PoorMansGridBackend
 {
     public class FilterService : IFilterService
     {

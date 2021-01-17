@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GridFilters.Tests.SampleDataHelpers
+namespace PoorMansGridBackend.Tests.SampleDataHelpers
 {
     public class SampleDataFactory
     {
