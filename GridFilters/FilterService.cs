@@ -31,22 +31,22 @@ namespace GridFilters
         {
             if (options.FilterModels == null) return query;
 
-            foreach (var filterModel in options.FilterModels)
+            foreach (var (fieldName, filterModel) in options.FilterModels)
             {
                 string condition, tmp;
                 var conditionValues = new List<object>();
 
-                if (!string.IsNullOrWhiteSpace(filterModel.Value.LogicOperator))
+                if (!string.IsNullOrWhiteSpace(filterModel.LogicOperator))
                 {
-                    tmp = GetConditionFromModel(filterModel.Key, filterModel.Value.Condition1, conditionValues);
+                    tmp = GetConditionFromModel(fieldName, filterModel.Condition1, conditionValues);
                     condition = tmp;
 
-                    tmp = GetConditionFromModel(filterModel.Key, filterModel.Value.Condition2, conditionValues);
-                    condition = $"{condition} {filterModel.Value.LogicOperator} {tmp}";
+                    tmp = GetConditionFromModel(fieldName, filterModel.Condition2, conditionValues);
+                    condition = $"{condition} {filterModel.LogicOperator} {tmp}";
                 }
                 else
                 {
-                    condition = GetConditionFromModel(filterModel.Key, filterModel.Value, conditionValues);
+                    condition = GetConditionFromModel(fieldName, filterModel, conditionValues);
                 }
 
                 query = conditionValues.Count == 0 ? query.Where(condition) : query.Where(condition, conditionValues.ToArray());
@@ -60,7 +60,7 @@ namespace GridFilters
             if (options.SortModel == null) return query;
 
             foreach (var sortModel in options.SortModel)
-                query = query.OrderBy($"{sortModel.ColId}{(sortModel.Sort.ToLower() == "desc" ? " descending" : string.Empty)}");
+                query = query.OrderBy($"{sortModel.ColId}{(sortModel.Sort?.ToLower() == "desc" ? " descending" : string.Empty)}");
 
             return query;
         }
@@ -69,7 +69,7 @@ namespace GridFilters
         {
             var modelResult = "";
 
-            switch (model.FilterType)
+            switch (model.FieldType)
             {
                 case "text":
                     switch (model.Type)
@@ -77,7 +77,7 @@ namespace GridFilters
                         case "equals":
                             modelResult = $"{colName} = \"{model.Filter}\"";
                             break;
-                        case "notEqual":
+                        case "notEquals":
                             modelResult = $"{colName} != \"{model.Filter}\"";
                             break;
                         case "contains":
@@ -92,8 +92,16 @@ namespace GridFilters
                             modelResult = $"{colName}.StartsWith(@{values.Count})";
                             values.Add(model.Filter);
                             break;
-                        case "endsWith":
+                        case "notStartsWith":
                             modelResult = $"!{colName}.StartsWith(@{values.Count})";
+                            values.Add(model.Filter);
+                            break;
+                        case "endsWith":
+                            modelResult = $"{colName}.EndsWith(@{values.Count})";
+                            values.Add(model.Filter);
+                            break;
+                        case "notEndsWith":
+                            modelResult = $"!{colName}.EndsWith(@{values.Count})";
                             values.Add(model.Filter);
                             break;
                     }
