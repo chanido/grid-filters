@@ -32,24 +32,15 @@ namespace PoorMansGridBackend
         {
             if (options.FilterModels == null) return query;
 
+            //The day we want to allow more different logic operators between filters we can do it like this
+            //condition = $"{leftSide} {filterModel.LogicOperator} {rightSide}";
+
             foreach (var (fieldName, filterModel) in options.FilterModels)
             {
                 ParseFilterValues(filterModel);
 
-                string condition;
                 var conditionValues = new List<object>();
-
-                if (filterModel.LogicOperator.IsNullOrEmpty())
-                {
-                    condition = GetConditionFromModel(fieldName, filterModel, conditionValues);
-                }
-                else
-                {
-                    var leftSide = GetConditionFromModel(fieldName, filterModel.Condition1, conditionValues);
-                    var rightSide = GetConditionFromModel(fieldName, filterModel.Condition2, conditionValues);
-
-                    condition = $"{leftSide} {filterModel.LogicOperator} {rightSide}";
-                }
+                var condition = GetConditionFromModel(fieldName, filterModel, conditionValues);
 
                 query = conditionValues.Count == 0 ? query.Where(condition) : query.Where(condition, conditionValues.ToArray());
             }
@@ -124,7 +115,7 @@ namespace PoorMansGridBackend
                         case "equals":
                             modelResult = $"{colName} = {model.Filter}";
                             break;
-                        case "notEqual":
+                        case "notEquals":
                             modelResult = $"{colName} <> {model.Filter}";
                             break;
                         case "lessThan":

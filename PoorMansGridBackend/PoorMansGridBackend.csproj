@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>Chan (aburrio@gmail.com)</Authors>
+    <Company>IntuiChan</Company>
+    <Product>Poor Man's Grid Backend</Product>
+    <Description>Simple backend code to provide pagination, sorting and filtering od any IQueryable. It has Text, Number and DateTime filters. It's not very smart but does the job for most of the cases.</Description>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright (C) IntuiChan 2021</Copyright>
+    <PackageProjectUrl>https://github.com/chanido/poor-mans-grid-backend</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/chanido/poor-mans-grid-backend</RepositoryUrl>
+    <PackageTags>Pagination, Sorting, Filtering, Grid, Page, Sort, Filter, Core, EntityFramework, EF</PackageTags>
+    <PackageReleaseNotes>This is the first release with just the bare minimum to work.</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

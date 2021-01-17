@@ -8,7 +8,7 @@ namespace PoorMansGridBackend.Tests.SampleDataHelpers
     {
         public static IQueryable<SampleData> GetSampleData() => new List<SampleData>
             {
-                new SampleData(Guid.NewGuid(), "Test0", -10, -300.25, Constants.LastYear),
+                new SampleData(Guid.NewGuid(), "Test0", -300, -300.25, Constants.LastYear),
                 new SampleData(Guid.NewGuid(), "Test1", 1, 3.25, Constants.LastMonth),
                 new SampleData(Guid.NewGuid(), "Test2", 2, 3.75, Constants.Yesterday),
                 new SampleData(Guid.NewGuid(), "Test3", 3, 4, Constants.Today),
