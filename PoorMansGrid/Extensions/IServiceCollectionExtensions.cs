@@ -4,7 +4,10 @@ using System;
 
 namespace PoorMansGrid.Extensions
 {
-    public enum PoorMansGridOptions { ForceCaseInsensitive }
+    public enum TextSearchOption { 
+        Default,
+        ForceCaseInsensitive
+    }
     public static class IServiceCollectionExtensions
     {
         //
@@ -20,7 +23,7 @@ namespace PoorMansGrid.Extensions
         // Returns:
         //     The Microsoft.Extensions.DependencyInjection.IServiceCollection so that additional
         //     calls can be chained.
-        public static IServiceCollection AddPoorMansGrid(this IServiceCollection services, PoorMansGridOptions? options = null)
+        public static IServiceCollection AddPoorMansGrid(this IServiceCollection services, TextSearchOption options = TextSearchOption.Default)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 

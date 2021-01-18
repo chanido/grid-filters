@@ -1,15 +1,14 @@
 ﻿using PoorMansGrid.Extensions;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using PoorMansGrid.FilterTypes;
 
 namespace PoorMansGrid
 {
     public class FilterService : IFilterService
     {
-        public PoorMansGridOptions? Options { get; }
+        public TextSearchOption Options { get; }
 
-        public FilterService(PoorMansGridOptions? options = null)
+        public FilterService(TextSearchOption options=TextSearchOption.Default)
         {
             Options = options;
         }
@@ -44,9 +43,8 @@ namespace PoorMansGrid
 
             foreach (var (fieldName, filterModel) in options.FilterModels)
             {
-                ParseFilterValues(filterModel);
 
-                var condition = GetConditionFromModel(fieldName, filterModel);
+                var condition = FilterConditionFactory.Create(fieldName, filterModel, Options);
 
                 query = condition.AddFilterToQuery(query);
             }
@@ -54,14 +52,7 @@ namespace PoorMansGrid
             return query;
         }
 
-        private void ParseFilterValues(FilterModel filterModel)
-        {
-            if (filterModel.FieldType == "date")
-            {
-                filterModel.Filter = filterModel.Filter.ToDateTime();
-                filterModel.FilterTo = filterModel.FilterTo.ToDateTime();
-            }
-        }
+       
 
         private IQueryable<T> ApplySort<T>(IQueryable<T> query, FilterOptions options)
         {
@@ -71,19 +62,6 @@ namespace PoorMansGrid
                 query = query.OrderBy($"{sortModel.ColId}{(sortModel.Sort?.ToLower() == "desc" ? " descending" : string.Empty)}");
 
             return query;
-        }
-
-        private FilterCondition GetConditionFromModel(string colName, FilterModel model)
-        {
-
-            if (model.FieldType == "text")
-                return new TextFilter(colName, model, Options);
-
-            if (model.FieldType == "number")
-                return new NumberFilter(colName, model);
-
-            return new DateFilter(colName, model);
-
         }
     }
 }

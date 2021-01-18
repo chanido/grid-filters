@@ -68,7 +68,7 @@ namespace PoorMansGrid.Tests
         [Test]
         public void EqualsCaseInsensitive()
         {
-            filterService = new FilterService(PoorMansGridOptions.ForceCaseInsensitive);
+            filterService = new FilterService(TextSearchOption.ForceCaseInsensitive);
 
             var options = new FilterOptions
             {
@@ -123,7 +123,7 @@ namespace PoorMansGrid.Tests
         [Test]
         public void ContainsCaseInsensitive()
         {
-            filterService = new FilterService(PoorMansGridOptions.ForceCaseInsensitive);
+            filterService = new FilterService(TextSearchOption.ForceCaseInsensitive);
 
             var options = new FilterOptions
             {

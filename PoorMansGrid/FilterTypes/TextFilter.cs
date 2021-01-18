@@ -6,10 +6,10 @@ namespace PoorMansGrid.FilterTypes
     {
         public string ColumnName { get; set; }
         public FilterModel Model { get; set; }
-        public PoorMansGridOptions? Options { get; set; }
+        public TextSearchOption? Options { get; set; }
 
 
-        public TextFilter(string columnName, FilterModel model, PoorMansGridOptions? options)
+        public TextFilter(string columnName, FilterModel model, TextSearchOption? options)
         {
             ColumnName = columnName;
             Model = model;
@@ -20,7 +20,7 @@ namespace PoorMansGrid.FilterTypes
 
         private void GenerateTextCondition()
         {
-            var insensitiveCased = Options == PoorMansGridOptions.ForceCaseInsensitive ? ".ToLower()" : string.Empty;
+            var insensitiveCased = Options == TextSearchOption.ForceCaseInsensitive ? ".ToLower()" : string.Empty;
 
             switch (Model.Type)
             {
