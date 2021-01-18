@@ -1,5 +1,4 @@
 ﻿using PoorMansGrid.Extensions;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -13,7 +12,7 @@ namespace PoorMansGrid
         {
             Options = options;
         }
-        
+
         public FilteredResult<T> Filter<T>(IQueryable<T> query, FilterOptions options)
         {
             query = ApplyFilters(query, options);
@@ -46,10 +45,9 @@ namespace PoorMansGrid
             {
                 ParseFilterValues(filterModel);
 
-                var conditionValues = new List<object>();
-                var condition = GetConditionFromModel(fieldName, filterModel, conditionValues);
+                var condition = GetConditionFromModel(fieldName, filterModel);
 
-                query = conditionValues.Count == 0 ? query.Where(condition) : query.Where(condition, conditionValues.ToArray());
+                query = condition.AddFilterToQuery(query);
             }
 
             return query;
@@ -74,110 +72,74 @@ namespace PoorMansGrid
             return query;
         }
 
-        private string GetConditionFromModel(string colName, FilterModel model, List<object> values)
+        private FilterCondition GetConditionFromModel(string colName, FilterModel model)
         {
-            var insensitiveCased = Options == PoorMansGridOptions.ForceCaseInsensitive ? ".ToLower()" : string.Empty;
-            var modelResult = "";
+            var filterCondition = new FilterCondition();
 
             switch (model.FieldType)
             {
-                case "text":
-                    switch (model.Type)
-                    {
-                        case "equals":
-                            modelResult = $"{colName}{insensitiveCased} = \"{model.Filter}\"{insensitiveCased}";
-                            break;
-                        case "notEquals":
-                            modelResult = $"{colName}{insensitiveCased} != \"{model.Filter}\"{insensitiveCased}";
-                            break;
-                        case "contains":
-                            modelResult = $"{colName}{insensitiveCased}.Contains(@{values.Count}{insensitiveCased})";
-                            values.Add(model.Filter);
-                            break;
-                        case "notContains":
-                            modelResult = $"!{colName}{insensitiveCased}.Contains(@{values.Count}{insensitiveCased})";
-                            values.Add(model.Filter);
-                            break;
-                        case "startsWith":
-                            modelResult = $"{colName}{insensitiveCased}.StartsWith(@{values.Count}{insensitiveCased})";
-                            values.Add(model.Filter);
-                            break;
-                        case "notStartsWith":
-                            modelResult = $"!{colName}{insensitiveCased}.StartsWith(@{values.Count}{insensitiveCased})";
-                            values.Add(model.Filter);
-                            break;
-                        case "endsWith":
-                            modelResult = $"{colName}{insensitiveCased}.EndsWith(@{values.Count}{insensitiveCased})";
-                            values.Add(model.Filter);
-                            break;
-                        case "notEndsWith":
-                            modelResult = $"!{colName}{insensitiveCased}.EndsWith(@{values.Count}{insensitiveCased})";
-                            values.Add(model.Filter);
-                            break;
-                    }
-                    break;
+                case "text": return new TextFilter(colName, model, Options);
 
                 case "number":
                     switch (model.Type)
                     {
                         case "equals":
-                            modelResult = $"{colName} = {model.Filter}";
+                            filterCondition.Condition = $"{colName} = {model.Filter}";
                             break;
                         case "notEquals":
-                            modelResult = $"{colName} <> {model.Filter}";
+                            filterCondition.Condition = $"{colName} <> {model.Filter}";
                             break;
                         case "lessThan":
-                            modelResult = $"{colName} < {model.Filter}";
+                            filterCondition.Condition = $"{colName} < {model.Filter}";
                             break;
                         case "lessThanOrEqual":
-                            modelResult = $"{colName} <= {model.Filter}";
+                            filterCondition.Condition = $"{colName} <= {model.Filter}";
                             break;
                         case "greaterThan":
-                            modelResult = $"{colName} > {model.Filter}";
+                            filterCondition.Condition = $"{colName} > {model.Filter}";
                             break;
                         case "greaterThanOrEqual":
-                            modelResult = $"{colName} >= {model.Filter}";
+                            filterCondition.Condition = $"{colName} >= {model.Filter}";
                             break;
                         case "inRange":
-                            modelResult = $"({colName} >= {model.Filter} AND {colName} <= {model.FilterTo})";
+                            filterCondition.Condition = $"({colName} >= {model.Filter} AND {colName} <= {model.FilterTo})";
                             break;
                     }
                     break;
 
                 case "date":
-                    values.Add(model.Filter);
+                    filterCondition.AddValue(model.Filter);
 
                     switch (model.Type)
                     {
                         case "equals":
-                            modelResult = $"{colName} = @{values.Count - 1}";
+                            filterCondition.Condition = $"{colName} = @{filterCondition.Values.Count - 1}";
                             break;
                         case "notEquals":
-                            modelResult = $"{colName} <> @{values.Count - 1}";
+                            filterCondition.Condition = $"{colName} <> @{filterCondition.Values.Count - 1}";
                             break;
                         case "lessThan":
-                            modelResult = $"{colName} < @{values.Count - 1}";
+                            filterCondition.Condition = $"{colName} < @{filterCondition.Values.Count - 1}";
                             break;
                         case "lessThanOrEqual":
-                            modelResult = $"{colName} <= @{values.Count - 1}";
+                            filterCondition.Condition = $"{colName} <= @{filterCondition.Values.Count - 1}";
                             break;
                         case "greaterThan":
-                            modelResult = $"{colName} > @{values.Count - 1}";
+                            filterCondition.Condition = $"{colName} > @{filterCondition.Values.Count - 1}";
                             break;
                         case "greaterThanOrEqual":
-                            modelResult = $"{colName} >= @{values.Count - 1}";
+                            filterCondition.Condition = $"{colName} >= @{filterCondition.Values.Count - 1}";
                             break;
                         case "inRange":
-                            values.Add(model.FilterTo);
-                            modelResult =
-                                $"({colName} >= @{values.Count - 2} AND {colName} <= @{values.Count - 1})";
+                            filterCondition.AddValue(model.FilterTo);
+                            filterCondition.Condition =
+                                $"({colName} >= @{filterCondition.Values.Count - 2} AND {colName} <= @{filterCondition.Values.Count - 1})";
                             break;
                     }
                     break;
-
             }
 
-            return modelResult;
+            return filterCondition;
         }
     }
 }

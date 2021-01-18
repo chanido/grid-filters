@@ -1,9 +1,9 @@
-using PoorMansGrid.Tests.SampleDataHelpers;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using PoorMansGrid.Extensions;
+using PoorMansGrid.Tests.SampleDataHelpers;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using PoorMansGrid.Extensions;
 
 namespace PoorMansGrid.Tests
 {
@@ -44,7 +44,7 @@ namespace PoorMansGrid.Tests
             var expectedValues = allItems.Where(x => x.Name == "Test1");
             Assert.AreEqual(expectedValues.Count(), result.Items.Count());
             Assert.IsTrue(result.Items.Any(x => x.Name == "Test1"));
-            Assert.IsFalse(result.Items.Any(x=>x.Name == "Test2"));
+            Assert.IsFalse(result.Items.Any(x => x.Name == "Test2"));
         }
 
         [Test]
@@ -131,7 +131,6 @@ namespace PoorMansGrid.Tests
             };
 
             var result = filterService.Filter(allItems, options);
-
 
             var expectedValues = allItems.Where(x => x.Name.ToLower().Contains("test"));
             Assert.AreEqual(expectedValues.Count(), result.Items.Count());
