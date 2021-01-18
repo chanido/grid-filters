@@ -2,20 +2,20 @@
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
-namespace PoorMansGrid
+namespace PoorMansGrid.FilterTypes
 {
-    public class FilterCondition
+    public abstract class FilterCondition
     {
-        public string Condition { get; set; }
-        public List<object> Values { get; set; }
+        protected string Condition { get; set; }
+        protected List<object> Values { get; set; }
 
 
-        public FilterCondition()
+        protected FilterCondition()
         {
             Values = new List<object>();
         }
 
-        internal void AddValue(object filter) => Values.Add(filter);
+        protected void AddValue(object filter) => Values.Add(filter);
 
         internal IQueryable<T> AddFilterToQuery<T>(IQueryable<T> query) =>
             Values.Count == 0 ? query.Where(Condition) : query.Where(Condition, Values.ToArray());

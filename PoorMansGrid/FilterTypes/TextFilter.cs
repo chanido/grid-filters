@@ -1,6 +1,6 @@
 ﻿using PoorMansGrid.Extensions;
 
-namespace PoorMansGrid
+namespace PoorMansGrid.FilterTypes
 {
     public class TextFilter : FilterCondition
     {

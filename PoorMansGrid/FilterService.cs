@@ -1,6 +1,7 @@
 ﻿using PoorMansGrid.Extensions;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using PoorMansGrid.FilterTypes;
 
 namespace PoorMansGrid
 {
@@ -74,72 +75,15 @@ namespace PoorMansGrid
 
         private FilterCondition GetConditionFromModel(string colName, FilterModel model)
         {
-            var filterCondition = new FilterCondition();
 
-            switch (model.FieldType)
-            {
-                case "text": return new TextFilter(colName, model, Options);
+            if (model.FieldType == "text")
+                return new TextFilter(colName, model, Options);
 
-                case "number":
-                    switch (model.Type)
-                    {
-                        case "equals":
-                            filterCondition.Condition = $"{colName} = {model.Filter}";
-                            break;
-                        case "notEquals":
-                            filterCondition.Condition = $"{colName} <> {model.Filter}";
-                            break;
-                        case "lessThan":
-                            filterCondition.Condition = $"{colName} < {model.Filter}";
-                            break;
-                        case "lessThanOrEqual":
-                            filterCondition.Condition = $"{colName} <= {model.Filter}";
-                            break;
-                        case "greaterThan":
-                            filterCondition.Condition = $"{colName} > {model.Filter}";
-                            break;
-                        case "greaterThanOrEqual":
-                            filterCondition.Condition = $"{colName} >= {model.Filter}";
-                            break;
-                        case "inRange":
-                            filterCondition.Condition = $"({colName} >= {model.Filter} AND {colName} <= {model.FilterTo})";
-                            break;
-                    }
-                    break;
+            if (model.FieldType == "number")
+                return new NumberFilter(colName, model);
 
-                case "date":
-                    filterCondition.AddValue(model.Filter);
+            return new DateFilter(colName, model);
 
-                    switch (model.Type)
-                    {
-                        case "equals":
-                            filterCondition.Condition = $"{colName} = @{filterCondition.Values.Count - 1}";
-                            break;
-                        case "notEquals":
-                            filterCondition.Condition = $"{colName} <> @{filterCondition.Values.Count - 1}";
-                            break;
-                        case "lessThan":
-                            filterCondition.Condition = $"{colName} < @{filterCondition.Values.Count - 1}";
-                            break;
-                        case "lessThanOrEqual":
-                            filterCondition.Condition = $"{colName} <= @{filterCondition.Values.Count - 1}";
-                            break;
-                        case "greaterThan":
-                            filterCondition.Condition = $"{colName} > @{filterCondition.Values.Count - 1}";
-                            break;
-                        case "greaterThanOrEqual":
-                            filterCondition.Condition = $"{colName} >= @{filterCondition.Values.Count - 1}";
-                            break;
-                        case "inRange":
-                            filterCondition.AddValue(model.FilterTo);
-                            filterCondition.Condition =
-                                $"({colName} >= @{filterCondition.Values.Count - 2} AND {colName} <= @{filterCondition.Values.Count - 1})";
-                            break;
-                    }
-                    break;
-            }
-
-            return filterCondition;
         }
     }
 }
