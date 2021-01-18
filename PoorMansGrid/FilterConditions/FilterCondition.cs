@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
-namespace PoorMansGrid.FilterTypes
+namespace PoorMansGrid.FilterConditions
 {
     public abstract class FilterCondition
     {
@@ -14,8 +14,6 @@ namespace PoorMansGrid.FilterTypes
         {
             Values = new List<object>();
         }
-
-        protected void AddValue(object filter) => Values.Add(filter);
 
         internal IQueryable<T> AddFilterToQuery<T>(IQueryable<T> query) =>
             Values.Count == 0 ? query.Where(Condition) : query.Where(Condition, Values.ToArray());

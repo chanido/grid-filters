@@ -1,4 +1,5 @@
 ﻿using PoorMansGrid.Extensions;
+using PoorMansGrid.FilterConditions;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -8,7 +9,7 @@ namespace PoorMansGrid
     {
         public TextSearchOption Options { get; }
 
-        public FilterService(TextSearchOption options=TextSearchOption.Default)
+        public FilterService(TextSearchOption options = TextSearchOption.Default)
         {
             Options = options;
         }
@@ -43,7 +44,6 @@ namespace PoorMansGrid
 
             foreach (var (fieldName, filterModel) in options.FilterModels)
             {
-
                 var condition = FilterConditionFactory.Create(fieldName, filterModel, Options);
 
                 query = condition.AddFilterToQuery(query);
@@ -51,8 +51,6 @@ namespace PoorMansGrid
 
             return query;
         }
-
-       
 
         private IQueryable<T> ApplySort<T>(IQueryable<T> query, FilterOptions options)
         {

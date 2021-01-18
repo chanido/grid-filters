@@ -2,7 +2,7 @@ using PoorMansGrid.Tests.SampleDataHelpers;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using PoorMansGrid.FilterTypes;
+using PoorMansGrid.FilterConditions;
 
 namespace PoorMansGrid.Tests
 {

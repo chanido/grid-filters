@@ -1,12 +1,10 @@
 ﻿using PoorMansGrid.Extensions;
-using PoorMansGrid.FilterTypes;
 
-namespace PoorMansGrid
+namespace PoorMansGrid.FilterConditions
 {
     public class FilterConditionFactory
     {
-
-        public static FilterCondition Create(string colName, FilterModel model, TextSearchOption? poorMansGridOptions)
+        public static FilterCondition Create(string colName, FilterModel model, TextSearchOption poorMansGridOptions)
         {
 
             if (model.FieldType == "text")
