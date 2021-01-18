@@ -7,6 +7,13 @@ namespace PoorMansGrid
 {
     public class FilterService : IFilterService
     {
+        public PoorMansGridOptions? Options { get; }
+
+        public FilterService(PoorMansGridOptions? options = null)
+        {
+            Options = options;
+        }
+        
         public FilteredResult<T> Filter<T>(IQueryable<T> query, FilterOptions options)
         {
             query = ApplyFilters(query, options);
@@ -69,6 +76,7 @@ namespace PoorMansGrid
 
         private string GetConditionFromModel(string colName, FilterModel model, List<object> values)
         {
+            var insensitiveCased = Options == PoorMansGridOptions.ForceCaseInsensitive ? ".ToLower()" : string.Empty;
             var modelResult = "";
 
             switch (model.FieldType)
@@ -77,33 +85,33 @@ namespace PoorMansGrid
                     switch (model.Type)
                     {
                         case "equals":
-                            modelResult = $"{colName} = \"{model.Filter}\"";
+                            modelResult = $"{colName}{insensitiveCased} = \"{model.Filter}\"{insensitiveCased}";
                             break;
                         case "notEquals":
-                            modelResult = $"{colName} != \"{model.Filter}\"";
+                            modelResult = $"{colName}{insensitiveCased} != \"{model.Filter}\"{insensitiveCased}";
                             break;
                         case "contains":
-                            modelResult = $"{colName}.Contains(@{values.Count})";
+                            modelResult = $"{colName}{insensitiveCased}.Contains(@{values.Count}{insensitiveCased})";
                             values.Add(model.Filter);
                             break;
                         case "notContains":
-                            modelResult = $"!{colName}.Contains(@{values.Count})";
+                            modelResult = $"!{colName}{insensitiveCased}.Contains(@{values.Count}{insensitiveCased})";
                             values.Add(model.Filter);
                             break;
                         case "startsWith":
-                            modelResult = $"{colName}.StartsWith(@{values.Count})";
+                            modelResult = $"{colName}{insensitiveCased}.StartsWith(@{values.Count}{insensitiveCased})";
                             values.Add(model.Filter);
                             break;
                         case "notStartsWith":
-                            modelResult = $"!{colName}.StartsWith(@{values.Count})";
+                            modelResult = $"!{colName}{insensitiveCased}.StartsWith(@{values.Count}{insensitiveCased})";
                             values.Add(model.Filter);
                             break;
                         case "endsWith":
-                            modelResult = $"{colName}.EndsWith(@{values.Count})";
+                            modelResult = $"{colName}{insensitiveCased}.EndsWith(@{values.Count}{insensitiveCased})";
                             values.Add(model.Filter);
                             break;
                         case "notEndsWith":
-                            modelResult = $"!{colName}.EndsWith(@{values.Count})";
+                            modelResult = $"!{colName}{insensitiveCased}.EndsWith(@{values.Count}{insensitiveCased})";
                             values.Add(model.Filter);
                             break;
                     }
