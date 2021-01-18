@@ -1,4 +1,4 @@
-﻿namespace PoorMansGridBackend
+﻿namespace PoorMansGrid
 {
     public class SortModel
     {

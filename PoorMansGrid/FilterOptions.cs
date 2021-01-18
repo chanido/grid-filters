@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PoorMansGridBackend
+namespace PoorMansGrid
 {
     public class FilterOptions
     {

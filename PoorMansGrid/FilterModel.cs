@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PoorMansGridBackend
+namespace PoorMansGrid
 {
     public class FilterModel
     {

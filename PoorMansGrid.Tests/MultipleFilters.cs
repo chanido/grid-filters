@@ -1,9 +1,9 @@
-using PoorMansGridBackend.Tests.SampleDataHelpers;
+using PoorMansGrid.Tests.SampleDataHelpers;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PoorMansGridBackend.Tests
+namespace PoorMansGrid.Tests
 {
     public class MultipleFilters
     {

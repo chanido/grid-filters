@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PoorMansGridBackend.Tests.SampleDataHelpers
+namespace PoorMansGrid.Tests.SampleDataHelpers
 {
     public class SampleData
     {

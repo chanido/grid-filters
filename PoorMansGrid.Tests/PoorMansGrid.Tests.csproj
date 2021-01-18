@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PoorMansGridBackend\PoorMansGridBackend.csproj" />
+    <ProjectReference Include="..\PoorMansGrid\PoorMansGrid.csproj" />
   </ItemGroup>
 
 </Project>

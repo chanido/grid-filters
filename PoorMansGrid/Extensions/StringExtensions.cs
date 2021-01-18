@@ -1,4 +1,4 @@
-﻿namespace PoorMansGridBackend.Extensions
+﻿namespace PoorMansGrid.Extensions
 {
     internal static class StringExtensions
     {

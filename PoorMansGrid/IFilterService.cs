@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace PoorMansGridBackend
+namespace PoorMansGrid
 {
     public interface IFilterService
     {
