@@ -23,7 +23,7 @@ namespace PoorMansGrid.Tests
 
             filterService = serviceProvider.GetService<IFilterService>();
 
-            //Alternatively you can create a new instance of the BlitzCache directly without dependency injection
+            //Alternatively you can create a new instance of the FilterService directly without dependency injection
             //filterService = new FilterService();
             //filterService = new FilterService(PoorMansGridOptions.ForceCaseInsensitive);
 
