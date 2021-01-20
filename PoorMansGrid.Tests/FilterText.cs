@@ -21,7 +21,7 @@ namespace PoorMansGrid.Tests
                 //.AddPoorMansGrid(PoorMansGridOptions.ForceCaseInsensitive) if you want to force the text queries to be case insensitive
                 .BuildServiceProvider();
 
-            filterService = serviceProvider.GetService<FilterService>();
+            filterService = serviceProvider.GetService<IFilterService>();
 
             //Alternatively you can create a new instance of the BlitzCache directly without dependency injection
             //filterService = new FilterService();

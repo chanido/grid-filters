@@ -12,7 +12,7 @@ namespace PoorMansGrid.Extensions
     {
         //
         // Summary:
-        //     /// Adds a non distributed in memory implementation of PoorMan's Grid FilterService
+        //     /// Adds PoorMan's Grid FilterService
         //     to the /// Microsoft.Extensions.DependencyInjection.IServiceCollection. ///
         //
         // Parameters:
@@ -23,12 +23,13 @@ namespace PoorMansGrid.Extensions
         // Returns:
         //     The Microsoft.Extensions.DependencyInjection.IServiceCollection so that additional
         //     calls can be chained.
-        public static IServiceCollection AddPoorMansGrid(this IServiceCollection services, TextSearchOption options = TextSearchOption.Default)
+        public static IServiceCollection AddPoorMansGridFilterService(this IServiceCollection services, TextSearchOption options = TextSearchOption.Default)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
             OptionsServiceCollectionExtensions.AddOptions(services);
-            ServiceCollectionDescriptorExtensions.TryAdd(services, ServiceDescriptor.Singleton(new FilterService(options)));
+            ServiceCollectionDescriptorExtensions.TryAdd(services, ServiceDescriptor.Scoped<IFilterService>(s => new FilterService(options)));
+
             return services;
         }
     }
