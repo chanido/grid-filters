@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Chan (aburrio@gmail.com)</Authors>
     <Company>IntuiChan</Company>
+    <Title>Poor Man's Grid</Title>
     <Product>Poor Man's Grid</Product>
     <Description>Simple backend code to provide pagination, sorting and filtering. It's not very smart but has Text, Number and DateTime filters. allows simple joins and does the job.</Description>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
