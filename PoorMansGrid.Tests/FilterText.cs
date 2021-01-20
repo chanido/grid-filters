@@ -17,7 +17,7 @@ namespace PoorMansGrid.Tests
         public void Setup()
         {
             serviceProvider = new ServiceCollection()
-                .AddPoorMansGrid()
+                .AddPoorMansGridFilterService()
                 //.AddPoorMansGrid(PoorMansGridOptions.ForceCaseInsensitive) if you want to force the text queries to be case insensitive
                 .BuildServiceProvider();
 
