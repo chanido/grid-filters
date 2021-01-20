@@ -5,7 +5,7 @@
     <Authors>Chan (aburrio@gmail.com)</Authors>
     <Company>IntuiChan</Company>
     <Product>Poor Man's Grid</Product>
-    <Description>Simple backend code to provide pagination, sorting and filtering. It's not very smart but has Text, Number and DateTime filters and simply does the job.</Description>
+    <Description>Simple backend code to provide pagination, sorting and filtering. It's not very smart but has Text, Number and DateTime filters. allows simple joins and does the job.</Description>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <Copyright>Copyright (C) IntuiChan 2021</Copyright>
     <PackageProjectUrl>https://github.com/chanido/poor-mans-grid-backend</PackageProjectUrl>
