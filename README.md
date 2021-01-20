@@ -1,6 +1,9 @@
 # Poor Man's Grid
 In the last two weeks I have been involved in three projects where I needed a way to process the requests of a grid and return the results paginated.
-I started reading the internet and asking colleagues and finally got to something that could be used in all the three projects.
+
+The problem is easily solved if you go to [devexpress](https://www.devexpress.com/) and buy their [grid controls](https://js.devexpress.com/Demos/WidgetsGallery/Demo/DataGrid/Overview/Angular/Light/). I have used them in other projects and they are absolutely gorgeous and I recommend them 100%... but the company I was developing for didn't want to spend any money on it. (Now the **Poor Man's** name makes sense, doesn't it?)
+
+So I started reading the whole internet and asking colleagues and finally, after mixing and matching everything we found, we got to something generic enough to be used in all the three projects.
 
 It is really simple to install and use. Give it a go! maybe this is all you need.
 
