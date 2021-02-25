@@ -31,6 +31,24 @@ namespace PoorMansGrid.Tests
         }
 
         [Test]
+        public void EqualsWithOptions()
+        {
+            var options = new FilterOptions
+            {
+                FilterModels = new Dictionary<string, FilterModel> { { "Name", new FilterModel { FieldType = "text", Type = "equals", Filter = new object[] { "Test1", "Test2" } } } }
+            };
+
+            var result = filterService.Filter(allItems, options);
+
+
+            var expectedValues = allItems.Where(x => x.Name == "Test1" || x.Name == "Test2");
+            Assert.AreEqual(expectedValues.Count(), result.Items.Count());
+            Assert.IsTrue(result.Items.Any(x => x.Name == "Test1"));
+            Assert.IsTrue(result.Items.Any(x => x.Name == "Test2"));
+            Assert.IsFalse(result.Items.Any(x => x.Name == "Test4"));
+        }
+
+        [Test]
         public void Equals()
         {
             var options = new FilterOptions

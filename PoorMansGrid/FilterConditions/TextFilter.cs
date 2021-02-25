@@ -1,5 +1,7 @@
 ﻿using PoorMansGrid.Extensions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PoorMansGrid.FilterConditions
 {
@@ -14,11 +16,11 @@ namespace PoorMansGrid.FilterConditions
         {
             var insensitiveCased = options == TextSearchOption.ForceCaseInsensitive ? ".ToLower()" : string.Empty;
 
-            if (model.Filter != null) Values.Add(model.Filter);
+            AddValues(model.Filter);
 
             Condition = model.Type switch
             {
-                "equals" => $@"{columnName}{insensitiveCased} = ""{model.Filter}""{insensitiveCased}",
+                "equals" => string.Join(" OR ", Values.Select(x => $@"{columnName}{insensitiveCased} = ""{x}""{insensitiveCased}")),
                 "notEquals" => $@"{columnName}{insensitiveCased} != ""{model.Filter}""{insensitiveCased}",
                 "contains" => $"{columnName}{insensitiveCased}.Contains(@0{insensitiveCased})",
                 "notContains" => $"!{columnName}{insensitiveCased}.Contains(@0{insensitiveCased})",
@@ -28,6 +30,20 @@ namespace PoorMansGrid.FilterConditions
                 "notEndsWith" => $"!{columnName}{insensitiveCased}.EndsWith(@0{insensitiveCased})",
                 _ => throw new ArgumentOutOfRangeException($"A filter of type {model.Type} cannot be applied to a Text filter.")
             };
+        }
+
+        private void AddValues(object filter)
+        {
+            if (filter == null) return;
+            else if (filter is string) Values.Add(filter);
+            else if (filter is IEnumerable<string> || filter is IEnumerable<object>)
+            {
+                IEnumerable<object> filterValues = filter as IEnumerable<string>;
+                filterValues = filterValues == null ? filter as IEnumerable<object> : filterValues;
+
+                Values.AddRange(filterValues);
+            }
+            else Values.Add(filter);
         }
     }
 }
